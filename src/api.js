@@ -1,45 +1,51 @@
-const BASE_URL = "https://order-backend-deploy.onrender.com/api/orders";
+// src/api.js
 
-// Get all orders
-export const fetchOrders = async () => {
-  const response = await fetch(BASE_URL);
-  return response.json();
-};
+const API_BASE_URL = "https://order-backend-deploy.onrender.com/api/orders";
 
-// Get one order by ID
-export const fetchOrderById = async (id) => {
-  const response = await fetch(`${BASE_URL}/${id}`);
-  return response.json();
-};
-
-// Create order
-export const createOrder = async (order) => {
-  const response = await fetch(BASE_URL, {
+// Create a new order
+export async function createOrder(order) {
+  const response = await fetch(API_BASE_URL, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(order),
   });
-  return response.json();
-};
 
-// Delete order
-export const deleteOrder = async (id) => {
-  return fetch(`${BASE_URL}/${id}`, {
+  if (!response.ok) {
+    throw new Error("Failed to create order");
+  }
+
+  return response.json();
+}
+
+// Get all orders
+export async function getAllOrders() {
+  const response = await fetch(API_BASE_URL);
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch orders");
+  }
+
+  return response.json();
+}
+
+// Get an order by ID
+export async function getOrderById(id) {
+  const response = await fetch(`${API_BASE_URL}/${id}`);
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch order");
+  }
+
+  return response.json();
+}
+
+// Delete an order by ID
+export async function deleteOrder(id) {
+  const response = await fetch(`${API_BASE_URL}/${id}`, {
     method: "DELETE",
   });
-};
 
-// Upload invoice
-export const uploadInvoice = async (id, file) => {
-  const formData = new FormData();
-  formData.append("file", file);
-
-  const response = await fetch(`${BASE_URL}/${id}/upload-invoice`, {
-    method: "POST",
-    body: formData,
-  });
-
-  return response.text();
-};
+  if (!response.ok) {
+    throw new Error("Failed to delete order");
+  }
+}
