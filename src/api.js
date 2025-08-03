@@ -2,7 +2,7 @@
 
 // src/api.js
 
-const API_BASE_URL = "http://localhost:8080/api/orders";
+const BASE_URL = "https://order-backend-deploy.onrender.com/api";
 
 // Create a new order
 export async function createOrder(order) {
