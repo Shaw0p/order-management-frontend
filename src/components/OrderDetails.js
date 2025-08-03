@@ -16,24 +16,25 @@ function OrderDetails() {
   const handleFileChange = (e) => setFile(e.target.files[0]);
 
   const handleUpload = async () => {
-    if (!file) return alert("Please select a file.");
+  if (!file) return alert("Please select a file.");
 
-    const formData = new FormData();
-    formData.append("file", file);
+  const formData = new FormData();
+  formData.append("file", file);
 
-    try {
-      const response = await fetch(`http://localhost:8080/orders/${id}/upload-invoice`, {
-        method: "POST",
-        body: formData,
-      });
+  try {
+    const response = await fetch(`https://order-backend-deploy.onrender.com/api/orders/${id}/upload-invoice`, {
+      method: "POST",
+      body: formData,
+    });
 
-      const message = await response.text();
-      setUploadMessage(message);
-    } catch (err) {
-      console.error("Upload failed", err);
-      setUploadMessage("Upload failed");
-    }
-  };
+    const message = await response.text();
+    setUploadMessage(message);
+  } catch (err) {
+    console.error("Upload failed", err);
+    setUploadMessage("Upload failed");
+  }
+};
+
 
   if (!order) return <p>Loading...</p>;
 
