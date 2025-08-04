@@ -5,6 +5,8 @@ import OrderForm from "./components/OrderForm";
 import OrderList from "./components/OrderList";
 import OrderDetails from "./components/OrderDetails";
 import AdminPanel from "./components/AdminPanel";
+import Login from "./pages/Login";
+
 
 function App() {
   return (
@@ -21,6 +23,7 @@ function App() {
           <Route path="/create" element={<OrderForm />} />
           <Route path="/orders/:id" element={<OrderDetails />} />
           <Route path="/admin" element={<AdminPanel />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </div>
     </Router>
