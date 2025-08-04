@@ -18,11 +18,19 @@ function OrderList() {
     fetchData();
   }, []);
 
+  const toggleTheme = () => {
+    document.body.classList.toggle("dark");
+  };
+
   return (
-    <div className="container">
-      <h2>All Orders</h2>
+    <div className="container fade-in">
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <h2>All Orders</h2>
+        <button onClick={toggleTheme}>Toggle Theme</button>
+      </div>
+
       {orders.map((order) => (
-        <div key={order.id} className="order-card">
+        <div key={order.id} className="order-card fade-in" style={{ marginBottom: "20px" }}>
           <h4>{order.productName}</h4>
           <p>Price: ₹{order.price}</p>
           <Link to={`/orders/${order.id}`}>
