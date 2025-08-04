@@ -1,20 +1,31 @@
+// src/components/AdminPanel.js
 import React, { useEffect, useState } from "react";
 import { getAllOrders } from "../api";
+import { useNavigate } from "react-router-dom";
 
 function AdminPanel() {
   const [orders, setOrders] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    getAllOrders().then(setOrders).catch(console.error);
-  }, []);
+    // Redirect if not logged in
+    if (localStorage.getItem("isAdmin") !== "true") {
+      navigate("/admin");
+    } else {
+      getAllOrders().then(setOrders).catch(console.error);
+    }
+  }, [navigate]);
 
   const handleStatusChange = async (id, newStatus) => {
     try {
-      const response = await fetch(`https://order-backend-deploy.onrender.com/api/orders/${id}/status`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status: newStatus })
-      });
+      const response = await fetch(
+        `https://order-backend-deploy.onrender.com/api/orders/${id}/status`,
+        {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ status: newStatus }),
+        }
+      );
 
       if (!response.ok) throw new Error("Update failed");
 
@@ -27,9 +38,18 @@ function AdminPanel() {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("isAdmin");
+    navigate("/");
+  };
+
   return (
     <div className="container fade-in">
-      <h2>Admin Panel</h2>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <h2>Admin Panel</h2>
+        <button onClick={handleLogout}>Logout</button>
+      </div>
+
       {orders.map((order) => (
         <div key={order.id} className="order-card">
           <p><strong>ID:</strong> {order.id}</p>
@@ -43,6 +63,7 @@ function AdminPanel() {
               <option value="Confirmed">Confirmed</option>
               <option value="Shipped">Shipped</option>
               <option value="Delivered">Delivered</option>
+              <option value="Cancelled">Cancelled</option>
             </select>
           </p>
         </div>
