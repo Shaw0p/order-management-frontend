@@ -1,42 +1,40 @@
-// src/components/AdminPanel.js
 import React, { useEffect, useState } from "react";
-import { getAllOrders, updateOrder } from "../api";
+import { getAllOrders } from "../api";
 
 function AdminPanel() {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    fetchOrders();
+    getAllOrders().then(setOrders).catch(console.error);
   }, []);
-
-  const fetchOrders = async () => {
-    try {
-      const data = await getAllOrders();
-      setOrders(data);
-    } catch (error) {
-      console.error("Failed to load orders", error);
-    }
-  };
 
   const handleStatusChange = async (id, newStatus) => {
     try {
-      const updated = await updateOrder(id, { status: newStatus });
-      setOrders((prev) =>
-        prev.map((order) => (order.id === id ? updated : order))
-      );
+      const response = await fetch(`https://order-backend-deploy.onrender.com/api/orders/${id}/status`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: newStatus })
+      });
+
+      if (!response.ok) throw new Error("Update failed");
+
+      // Refresh orders
+      const updated = await getAllOrders();
+      setOrders(updated);
     } catch (err) {
-      console.error("Status update failed", err);
+      alert("Failed to update status");
+      console.error(err);
     }
   };
 
   return (
     <div className="container fade-in">
-      <h2>Admin Panel - Manage Orders</h2>
+      <h2>Admin Panel</h2>
       {orders.map((order) => (
         <div key={order.id} className="order-card">
+          <p><strong>ID:</strong> {order.id}</p>
           <p><strong>Product:</strong> {order.productName}</p>
-          <p><strong>Price:</strong> ₹{order.price}</p>
-          <p><strong>Status:</strong> 
+          <p><strong>Status:</strong>
             <select
               value={order.status}
               onChange={(e) => handleStatusChange(order.id, e.target.value)}
