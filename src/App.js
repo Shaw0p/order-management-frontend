@@ -4,6 +4,7 @@ import './App.css';
 import OrderForm from "./components/OrderForm";
 import OrderList from "./components/OrderList";
 import OrderDetails from "./components/OrderDetails";
+import AdminPanel from "./components/AdminPanel";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/" element={<OrderList />} />
           <Route path="/create" element={<OrderForm />} />
           <Route path="/orders/:id" element={<OrderDetails />} />
+          <Route path="/admin" element={<AdminPanel />} />
         </Routes>
       </div>
     </Router>
