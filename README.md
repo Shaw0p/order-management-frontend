@@ -1,70 +1,51 @@
-# Getting Started with Create React App
+# Order Management Frontend (React.js)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is the frontend part of the Order Management System. It’s connected to a Spring Boot backend hosted on Render. Users can create, view, and manage orders — and also upload invoices which are saved to AWS S3.
 
-## Available Scripts
+## ✅ Features
 
-In the project directory, you can run:
+- Create order form (Product Name + Price)
+- Order list view with dynamic links
+- Detailed order page with invoice upload
+- Reusable animations + consistent theme
+- Fully deployed with Vercel (CI/CD active)
 
-### `npm start`
+## 🛠 Tech Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- React.js (with Hooks + Functional Components)
+- CSS + keyframe animations
+- Hosted on Vercel
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🚀 Deployment
 
-### `npm test`
+The frontend is live here:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+🔗 [Frontend Live URL](https://order-management-frontend.vercel.app)
 
-### `npm run build`
+## 📁 Pages
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+| Path              | Description                |
+|-------------------|----------------------------|
+| `/`               | List all orders            |
+| `/create`         | Create a new order         |
+| `/orders/:id`     | View order + upload invoice|
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 🖼 Sample Animations & Styling
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+I didn't use Tailwind because of setup issues in Bash, so I added my own CSS and animations using `@keyframes` and transitions to make it look more appealing and responsive.
 
-### `npm run eject`
+## 🔄 API Communication
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Every frontend call goes to the deployed backend on Render. I had to handle CORS errors by updating the backend config to allow frontend origin.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 💻 How I Built It
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- Started with the `OrderList` and `OrderForm` components.
+- Connected them with `fetch` to the backend.
+- Designed the `OrderDetails` page to support file uploads.
+- Fixed issues related to file upload encoding and S3 response.
+- Added `useEffect`, `useNavigate`, and `useParams` logic.
+- Deployed to Vercel and configured CI/CD (auto deploy on push).
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+---
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
