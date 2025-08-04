@@ -8,6 +8,7 @@ function OrderDetails() {
   const [order, setOrder] = useState(null);
   const [file, setFile] = useState(null);
   const [uploadMessage, setUploadMessage] = useState("");
+  const [statusUpdateMessage, setStatusUpdateMessage] = useState("");
 
   useEffect(() => {
     getOrderById(id).then(setOrder).catch(console.error);
@@ -35,6 +36,25 @@ function OrderDetails() {
     }
   };
 
+  const handleStatusChange = async (e) => {
+    const newStatus = e.target.value;
+
+    try {
+      const response = await fetch(`https://order-backend-deploy.onrender.com/api/orders/${id}/status`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: newStatus }),
+      });
+
+      const message = await response.text();
+      setStatusUpdateMessage(message);
+      setOrder((prev) => ({ ...prev, status: newStatus }));
+    } catch (err) {
+      console.error("Status update failed", err);
+      setStatusUpdateMessage("Status update failed");
+    }
+  };
+
   if (!order) return <p className="fade-in">Loading...</p>;
 
   return (
@@ -53,6 +73,18 @@ function OrderDetails() {
           </p>
         )}
       </div>
+
+      <hr style={{ margin: "20px 0" }} />
+
+      <h3>Change Order Status</h3>
+      <select value={order.status} onChange={handleStatusChange}>
+        <option value="Pending">Pending</option>
+        <option value="Confirmed">Confirmed</option>
+        <option value="Shipped">Shipped</option>
+        <option value="Delivered">Delivered</option>
+        <option value="Cancelled">Cancelled</option>
+      </select>
+      {statusUpdateMessage && <p>{statusUpdateMessage}</p>}
 
       <hr style={{ margin: "20px 0" }} />
 
