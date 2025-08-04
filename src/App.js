@@ -5,7 +5,7 @@ import OrderForm from "./components/OrderForm";
 import OrderList from "./components/OrderList";
 import OrderDetails from "./components/OrderDetails";
 import AdminPanel from "./components/AdminPanel";
-import Login from "./pages/Login";
+import Login from "./components/Login";
 
 
 function App() {
