@@ -16,7 +16,7 @@ function App() {
           <Route path="/" element={<OrderList />} />
           <Route path="/create" element={<OrderForm />} />
           <Route path="/orders/:id" element={<OrderDetails />} />
-          <Route path="/invoices" element={<InvoicesPage />} />
+          
 
         </Routes>
       </div>
