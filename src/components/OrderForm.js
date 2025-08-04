@@ -19,9 +19,9 @@ function OrderForm() {
   };
 
   return (
-    <div className="container">
+    <div className="container fade-in">
       <h2>Create New Order</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "15px", maxWidth: "400px" }}>
         <input
           type="text"
           placeholder="Product Name"
