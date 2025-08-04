@@ -11,8 +11,11 @@ function App() {
     <Router>
       <div>
         <nav>
-          <Link to="/">Orders</Link> | <Link to="/create">Create Order</Link>
+          <Link to="/">Orders</Link> | 
+          <Link to="/create">Create Order</Link> | 
+          <Link to="/admin">Admin Panel</Link>
         </nav>
+
         <Routes>
           <Route path="/" element={<OrderList />} />
           <Route path="/create" element={<OrderForm />} />
