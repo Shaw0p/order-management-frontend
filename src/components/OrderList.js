@@ -1,10 +1,12 @@
 // src/components/OrderList.js
 import React, { useEffect, useState } from "react";
 import { getAllOrders } from "../api";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function OrderList() {
   const [orders, setOrders] = useState([]);
+  const navigate = useNavigate();
+  const isAdmin = localStorage.getItem("isAdmin") === "true";
 
   useEffect(() => {
     async function fetchData() {
@@ -22,11 +24,19 @@ function OrderList() {
     document.body.classList.toggle("dark");
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("isAdmin");
+    navigate("/login");
+  };
+
   return (
     <div className="container fade-in">
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <h2>All Orders</h2>
-        <button onClick={toggleTheme}>Toggle Theme</button>
+        <div>
+          <button onClick={toggleTheme}>Toggle Theme</button>
+          {isAdmin && <button onClick={handleLogout} style={{ marginLeft: "10px" }}>Logout</button>}
+        </div>
       </div>
 
       {orders.map((order) => (
