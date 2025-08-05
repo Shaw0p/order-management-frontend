@@ -1,16 +1,13 @@
 // src/components/OrderDetails.js
 import React, { useEffect, useState } from "react";
 import { getOrderById } from "../api";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 function OrderDetails() {
   const { id } = useParams();
-  const navigate = useNavigate();
   const [order, setOrder] = useState(null);
   const [file, setFile] = useState(null);
   const [uploadMessage, setUploadMessage] = useState("");
-  const [statusUpdateMessage, setStatusUpdateMessage] = useState("");
-  const isAdmin = localStorage.getItem("isAdmin") === "true";
 
   useEffect(() => {
     getOrderById(id).then(setOrder).catch(console.error);
@@ -38,38 +35,11 @@ function OrderDetails() {
     }
   };
 
-  const handleStatusChange = async (e) => {
-    const newStatus = e.target.value;
-
-    try {
-      const response = await fetch(`https://order-backend-deploy.onrender.com/api/orders/${id}/status`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status: newStatus }),
-      });
-
-      const message = await response.text();
-      setStatusUpdateMessage(message);
-      setOrder((prev) => ({ ...prev, status: newStatus }));
-    } catch (err) {
-      console.error("Status update failed", err);
-      setStatusUpdateMessage("Status update failed");
-    }
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem("isAdmin");
-    navigate("/login");
-  };
-
   if (!order) return <p className="fade-in">Loading...</p>;
 
   return (
     <div className="container fade-in">
       <h2>Order Details</h2>
-      {isAdmin && (
-        <button onClick={handleLogout} style={{ float: "right" }}>Logout</button>
-      )}
       <div className="order-card">
         <p><strong>ID:</strong> {order.id}</p>
         <p><strong>Product:</strong> {order.productName}</p>
@@ -85,21 +55,6 @@ function OrderDetails() {
       </div>
 
       <hr style={{ margin: "20px 0" }} />
-
-      {isAdmin && (
-        <>
-          <h3>Change Order Status</h3>
-          <select value={order.status} onChange={handleStatusChange}>
-            <option value="Pending">Pending</option>
-            <option value="Confirmed">Confirmed</option>
-            <option value="Shipped">Shipped</option>
-            <option value="Delivered">Delivered</option>
-            <option value="Cancelled">Cancelled</option>
-          </select>
-          {statusUpdateMessage && <p>{statusUpdateMessage}</p>}
-          <hr style={{ margin: "20px 0" }} />
-        </>
-      )}
 
       <h3>Upload Invoice</h3>
       <input type="file" onChange={handleFileChange} />
